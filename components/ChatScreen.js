@@ -6,7 +6,6 @@ import Chalist from '../components/Chalist';
 const ChatScreen = () => {
   return (
     <SafeAreaView style={tw``}>
-      {/* <Header title="chat" call/> */}
       <Chalist/>
     </SafeAreaView>
   )

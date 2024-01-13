@@ -11,6 +11,7 @@ import RegisterScreen from './Screens/registerScreen';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
+
   return (
   <>
       <NavigationContainer>

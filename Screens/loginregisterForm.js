@@ -56,7 +56,7 @@ const LoginScreen = () => {
     
    </View>
    <TouchableOpacity
-   onPress={handleSignIn}
+   onPress={navigator.navigate('Home')}
    style={[tw` w-70 h-9 mb-6  rounded-md bg-white mt-70 `,
    ]}
    disabled={incomplete}

@@ -9,10 +9,9 @@ import tw from "twrnc";
 
 const MAX_CHARACTERS = 20;
 
-const ChatRow = ({friends}) => {
+const ChatRowGroup = ({friends}) => {
 
-  const[isAdded,setIsAdded]=useState(false);
-  const[isOnline,setIsOnline]=useState(true)
+  const[isAdmin,setIsAdmin]=useState(false);
   const handleAddFriend = async (friendId) => {
     try {
       await addFriend(userId, friendId);
@@ -25,7 +24,7 @@ const ChatRow = ({friends}) => {
    // const user = auth.currentUser;
     const [matchedUserInfo,setMatchedUserInfo]=useState(null);
     const[lastMessage,setLastMessage]=useState('');
-    const text =lastMessage || "say hi your Friends"
+    const text =lastMessage || "say hi to the group"
 
   const truncatedText = text.length > MAX_CHARACTERS
     ? text.substring(0, MAX_CHARACTERS) + '...'
@@ -43,10 +42,10 @@ const ChatRow = ({friends}) => {
       />
       <View>
       <Text style={tw`text-lg font-semibold text-cyan-500`}>{matchedUserInfo?.displayName||"Dawit Asefa"}</Text>
-      <TouchableOpacity style={{marginTop:-10,marginLeft:200}} onPress={()=>{console.log("now he is your friend")}}>
-      {!isAdded && <Entypo name="add-user" size={18} color="#00BCD4" />}
-      </TouchableOpacity>
-      {isOnline && <Text style={{color:"green", marginTop:-10}}>online</Text>}
+      <View style={{marginTop:-10,marginLeft:190}} onPress={()=>{console.log("now he is your friend")}}>
+      {!isAdmin && <Text style={{color:"#00BCD4"}}>Admin</Text>}
+      </View>
+      
       <Text>{truncatedText}</Text>
       </View>
       
@@ -54,6 +53,6 @@ const ChatRow = ({friends}) => {
   )
 }
 
-export default ChatRow
+export default ChatRowGroup
 
 const styles = StyleSheet.create({})

@@ -1,6 +1,7 @@
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Chalist from './Chalist'
+import ChatRowGroup from './ChatRowGroup';
 
 
 const DropdownForm = ({ handleSubmit }) => {
@@ -41,7 +42,7 @@ const Group = () => {
   }
   return (
     <SafeAreaView>
-      <Chalist/>
+      <ChatRowGroup/>
       <View style={styles.container}>
       <TouchableOpacity
         style={styles.buttons}
@@ -62,16 +63,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop:20,
   },
   buttons:{
     backgroundColor:"ffffff",
-    borderColor:"#9e9e9e",
+    borderColor:"#00BCD4",
     justifyContent:'center',
   },
   button: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: '#9e9e9e',
+    backgroundColor: '#00BCD4',
     borderRadius: 5,
     marginVertical: 10,
   },

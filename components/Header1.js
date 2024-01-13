@@ -1,4 +1,5 @@
 import {
+  Button,
   FlatList,
   Image,
   Modal,
@@ -14,8 +15,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-// import * as signalR from "@microsoft/signalr";
-// import { ListItem } from "react-native-elements";
+import { Feather } from '@expo/vector-icons';
 import { useState } from "react";
 
 const Header1 = () => {
@@ -28,26 +28,6 @@ const Header1 = () => {
   const toggleModalSearch = () => {
     setModalVisibleSearch(!isModalVisibleSearch);
   };
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
-
-  //handlesearch
-  const handleSearch = () => {
-    axios
-      .get("https://localhost:5001/search?q=${query}")
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    connectionRef.current.invoke("Search", query);
-  };
-
-  // const renderItem = ({ item }) => (
-  //   <ListItem title={item.name} onPress={() => console.log(item)} />
-  // );
 
   return (
     <View style={styles.mainHeader}>
@@ -132,19 +112,41 @@ function ModalContent({ onClose }) {
 }
 
 function ModalContentSearch({ onClose }) {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+
+  //handlesearch
+  const handleSearch =async () => {
+    try {
+      const response = await axios.get(
+        `http://your-backend-url/api/books?query=${query}` // Replace with your backend URL
+      );
+      setResults(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    connectionRef.current.invoke("Search", query);
+  };
+
   return (
     <View style={styles.modalSearch}>
-      {/* <View style={styles.searchbar}>
-        <TouchableOpacity onPress={onClose}>
-          <Ionicons name="arrow-back" size={28} color="black" />
-        </TouchableOpacity>
-        <TextInput value={query} onChangeText={setQuery} placeholder="Search" />
-        <FlatList
-          data={results}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
+     <View style={styles.container}>
+     <TextInput
+          style={styles.input}
+          placeholder="Search ..."
+          onChangeText={setQuery}
+          value={query}
         />
-      </View> */}
+        <TouchableOpacity onPress={handleSearch} style={styles.searchIconContainer}>
+          <Feather name="search" size={24} color="cyan" style={styles.searchIcon} /></TouchableOpacity>
+      <FlatList
+        style={styles.results}
+        data={results}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <Text style={styles.resultItem}>{item.title}</Text>}
+      />
+    </View>
     </View>
   );
 }
@@ -221,4 +223,29 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
   },
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#fff',
+  },
+  input: {
+    height: 40,
+    borderColor: '#DDD',
+    borderWidth: 1,
+    borderRadius:20,
+    marginBottom: 16,
+    paddingHorizontal: 8,
+  },
+  results: {
+    flex: 1,
+  },
+  resultItem: {
+    marginBottom: 8,
+  },
+  searchIconContainer:{
+    marginRight:8,
+    marginTop:-50,
+    paddingTop:0,
+    alignItems:"flex-end"
+  }
 });
